@@ -9,7 +9,10 @@ chmod ugo+x is used to allow everybody to do anything to the file.
 chmod 007 is used to give permission to other user,but not owner or group owner.
 chmod 753 used to set the mode of the file.
 chmod --reference==olleh used to set the mode of hello as olleh.
-chmod -R +X used add execute permission to all subdirectories of the current directory for the owner, the group owner and all other users.
+chmod -R +X .  used add execute permission to all subdirectories of the current directory for the owner, the group owner and all other users.
 mkdir -m used to create a new directory with certain permissions (add the code of the permissions before directory name).
 chgrp (new group) file is used to change the ownership of a file to a certaing group.
-
+chown vincent:staff * to change the owner and group owner.
+chown vincent:staff (file name) to change the ownwer and group owner of a certain file.
+chown --from==(specified user) newuser file.
+telnet towel.blinkenlights.nl will play the StarWars IV episode in the terminal.
