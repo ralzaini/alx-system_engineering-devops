@@ -1,12 +1,5 @@
-#!/bin/bash
-# shellcheck disable=SC2009
+#!/usr/bin/env bash
+# script that displays the pid along with the process name
+# for processes that contianer bash
 
-for pid in /proc/[0-9]*; do
-    if [ -f "$pid/comm" ]; then
-        comm=$(cat "$pid/comm")
-        if [[ $comm == *bash* ]]; then
-            echo "$(basename $pid) $comm"
-        fi
-    fi
-done
-
+pgrep bash -l
