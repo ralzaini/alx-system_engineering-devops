@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
+#Simply match School
 
-# Simply match School
-puts ARGV[0][/School/] || ""
+puts ARGV[0].scan(/School/).join
