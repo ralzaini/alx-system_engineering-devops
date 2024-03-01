@@ -1,7 +1,4 @@
 #!/bin/bash/env bash
 #diplays listening ports that show listing sockes, pid and prog
 
-netstat -tulnp 2>/dev/null | awk '/LISTEN/ {print $4, $7}' | sed -e 's/.*://' | awk '{print $2, $1}' | while read -r pid port; do
-    program=$(ps -p "$pid" -o comm=)
-    echo "Port: $port, PID: $pid, Program: $program"
-done
+netstat -lp
