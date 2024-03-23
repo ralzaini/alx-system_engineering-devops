@@ -26,7 +26,5 @@ The server uses the Hypertext Transfer Protocol (HTTP) to communicate with the u
 SPOF
 SPOF stands for Single Point of Failure. Concerning the web infrastructure design, the components are prone to SPOF issues. Specifically, the Web Server, Application Server, and Database are all at risk; if any of these components fail, the whole infrastructure will fail.
 Downtime when maintenance is needed (like deploying new code web server needs to be restarted)
-When we need to provide an update to one of the components we need to shut down the hole
-System. This will mean the service will be interrupted until the update is completed. 
-Cannot scale if too much incoming traffic
+When we need to provide an update to one of the components we need to shut down the hole System. This will mean the service will be interrupted until the update is completed. Cannot scale if too much incoming traffic.
 We have 1 server containing the web server, application server, and database. This means we may have 1 request entertained at a time. This will cause delays in the service the server provides.
