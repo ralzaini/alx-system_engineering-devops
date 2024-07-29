@@ -1,34 +1,63 @@
 #!/usr/bin/python3
-""" Todo list progress for employee """
+'''
+module: 0-gather_data_from_an_API.py
+This script interacts with a RESTful API to retrieve
+and display TODO list progress for a given employee ID.
 
-if __name__ == "__main__":
-    import requests
-    import sys
+Usage:
+    python3 0-gather_data_from_an_API.py <employee_id>
+'''
 
-    if len(sys.argv) < 2:
-        print("Usage: {} <employee_id>".format(sys.argv[0]))
-        sys.exit(1)
+import requests
+import sys
+
+
+def todo_progress(user_id):
+    '''
+    Retrieve and display TODO list progress for the specified employee.
+
+    Args:
+        user_id (int): The ID of the employee.
+    Returns:
+        None
+    '''
+
+    base_url = 'https://jsonplaceholder.typicode.com'
+    user_url = f'{base_url}/users/{user_id}'
+    todos_url = f'{base_url}/todos?userId={user_id}'
 
     try:
-        id = int(sys.argv[1])
-    except ValueError:
-        print("Employee ID must be an integer.")
+        user_res = requests.get(user_url)
+        todos_res = requests.get(todos_url)
+
+        if user_res.status_code != 200 or todos_res.status_code != 200:
+            print('Error: Failed to retrieve data from API.')
+            sys.exit(1)
+
+        user_data = user_res.json()
+        todos_data = todos_res.json()
+
+        employee_name = user_data.get('name')
+        total_tasks = len(todos_data)
+        done_tasks = sum(1 for task in todos_data if task.get('completed'))
+
+        print(f'Employee {employee_name} is done '
+              f'with tasks({done_tasks}/{total_tasks}):')
+
+        for task in todos_data:
+            if task.get('completed'):
+                print(f"\t {task.get('title')}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
         sys.exit(1)
 
-    req_f = f'https://jsonplaceholder.typicode.com/users/{id}'
-    emp_req = requests.get(req_f)
-    if emp_req.status_code == 200:
-        resp_emp = emp_req.json()
-        name = resp_emp.get('name')
-        req_f = f'https://jsonplaceholder.typicode.com/todos?userId={id}'
-        todos_req = requests.get(req_f)
-        if todos_req.status_code == 200:
-            resp_todos = todos_req.json()
-            completed_list = [todo for todo in resp_todos if todo.get('completed')]
-            completed_t_c = len(completed_list)
-            all_c = len(resp_todos)
-            print(f'Employee {name} is done with tasks({completed_t_c}/{all_c}):')
-            for todo in completed_list:
-                print(f'\t {todo.get("title")}')
-    else:
-        print(f"Employee with ID {id} not found.")
+
+if __name__ == '__main__':
+    user_id = sys.argv[1]
+
+    if not user_id.isdigit():
+        print("Error: Employee ID must be an integer.")
+        sys.exit(1)
+
+    todo_progress(int(user_id))
